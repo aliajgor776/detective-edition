@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>কার দৌড় কত দূর - গোয়েন্দা এডিশন | UKB SOFT</title>
     
-    <!-- Open Graph Meta Tags for Facebook Share -->
+    <!-- Dynamic Facebook Open Graph Meta Tags for Page Preview -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content="কার দৌড় কত দূর - গোয়েন্দা ধাঁধা গেম" />
     <meta property="og:description" content="আমি গোয়েন্দা ধাঁধার কঠিন দৌড়ে অংশ নিয়েছি! আপনার বুদ্ধির দৌড় কত দূর? এখনই খেলে নিজেকে যাচাই করুন।" />
@@ -278,7 +278,7 @@
                 optsContainer.appendChild(btn);
             });
 
-            // Start Timer (Decreases as game progresses)
+            // Start Timer
             timer = Math.max(8, 16 - Math.floor(distance / 500));
             document.getElementById("timerText").innerText = timer + " সে.";
 
@@ -384,41 +384,13 @@
             ctx.fillText("Developed by UKB SOFT | ukbsoft.com", canvas.width / 2, 440);
         }
 
-        // Facebook Share Function
+        // Direct Facebook Website Page Sharing
         function shareToFacebook() {
-            const canvas = document.getElementById("certCanvas");
-            const shareText = `আমি 'কার দৌড় কত দূর' গোয়েন্দা গেমে ${distance} মিটার তাড়া করে ${casesSolved} টি কেস সমাধান করেছি! আমার পদমর্যাদা: ${getRank(distance)}। আপনার বুদ্ধির দৌড় কত দূর?`;
-            const appUrl = window.location.href;
-
-            canvas.toBlob(function(blob) {
-                const file = new File([blob], "detective_certificate.png", { type: "image/png" });
-
-                // Web Share API (Mobile native share)
-                if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
-                    navigator.share({
-                        title: 'কার দৌড় কত দূর',
-                        text: shareText,
-                        url: appUrl,
-                        files: [file]
-                    }).catch(() => {});
-                } else {
-                    // Fallback for Desktop: Auto-download & Open Facebook Sharer
-                    const link = document.createElement('a');
-                    link.download = 'detective_certificate.png';
-                    link.href = canvas.toDataURL("image/png");
-                    link.click();
-
-                    // Copy Caption
-                    try {
-                        navigator.clipboard.writeText(shareText + " " + appUrl);
-                    } catch(e) {}
-
-                    alert("আপনার সনদপত্রটি ডাউনলোড হয়েছে এবং ক্যাপশন কপি হয়েছে! সরাসরি ফেসবুকে পোস্ট করুন।");
-                    
-                    const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(appUrl)}`;
-                    window.open(fbUrl, '_blank');
-                }
-            }, 'image/png');
+            const currentUrl = window.location.href;
+            const fbShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}`;
+            
+            // Opens Facebook Post dialog with website page preview card
+            window.open(fbShareUrl, '_blank', 'width=600,height=500');
         }
     </script>
 </body>
